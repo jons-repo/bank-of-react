@@ -3,14 +3,20 @@ import { Navigate } from 'react-router-dom'
 
 class LogIn extends Component {
     constructor() {
-        super()
+        // Call the parent class constructor (Component) using the super() method
+        super();
+
+        // Initialize the component's state
         this.state = {
+            // Create a user object to hold the user's credentials
             user: {
-                userName: '',
-                password: ''
+                userName: '',    // Initialize the userName property with an empty string
+                password: ''     // Initialize the password property with an empty string
             },
-            redirect: false
-        }
+
+            // Create a redirect flag to control the navigation
+            redirect: false    // Initialize the redirect flag to false
+        };
     }
 
     handleChange = (e) => {

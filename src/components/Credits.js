@@ -2,16 +2,14 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
 class Credits extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
-            credits: [],
             newCreditAmount: 0,
         };
     }
 
     handleInputChange = (e) => {
-        // Update the corresponding field in state with the new value
         this.setState({ [e.target.name]: e.target.value });
     };
 
@@ -23,26 +21,17 @@ class Credits extends Component {
             return;
         }
 
-        const newCredit = {
-            type: 'credit',
-            amount: parseFloat(newCreditAmount).toFixed(2),
-        };
+        const updatedBalance = parseFloat(this.props.accountBalance) + parseFloat(newCreditAmount);
+        this.props.updateAccountBalance(updatedBalance);
 
-        this.setState((prevState) => ({
-            // Add the new credit to the credits array in state
-            credits: [...prevState.credits, newCredit],
+        this.setState({
             newCreditAmount: 0,
-        }));
-
-        // Update the account balance in the parent component by adding the new credit amount
-        this.props.updateAccountBalance(
-            this.props.accountBalance + parseFloat(newCreditAmount)
-        );
+        });
     };
 
     render() {
         const { accountBalance } = this.props;
-        const { credits, newCreditAmount } = this.state;
+        const { newCreditAmount } = this.state;
 
         return (
             <div>
@@ -61,7 +50,7 @@ class Credits extends Component {
                     <button onClick={this.addCredit}>Add Credit</button>
                 </div>
                 <div>
-                    <p>Account Balance: {accountBalance.toFixed(2)}</p>
+                    <p>Account Balance: {accountBalance.toFixed(2)}</p> {/* Display account balance */}
                 </div>
                 <Link to="/">Back to User Profile</Link>
             </div>

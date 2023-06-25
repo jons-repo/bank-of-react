@@ -2,54 +2,45 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
 class Debits extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
-             // Array to store debit transactions
-            debits: [],  
-            newDebitAmount: 0,  
+            newDebitAmount: 0, // The amount of the new debit to be added
         };
     }
 
+    // Function to handle input change for the new debit amount
     handleInputChange = (e) => {
         this.setState({ [e.target.name]: e.target.value });
     };
 
-    // Function to add a new debit transaction
+    // Function to add a new debit
     addDebit = () => {
         const { newDebitAmount } = this.state;
 
-        if (!newDebitAmount) {   // Check if amount is entered
+        // Check if the new debit amount is provided
+        if (!newDebitAmount) {
             alert('Please enter the amount.');
             return;
         }
 
-        const newDebit = {
-            type: 'debit',
-            // Convert amount to float and fix decimal places
-            amount: parseFloat(newDebitAmount).toFixed(2),
-        };
+        // Calculate the updated account balance by subtracting the new debit amount
+        const updatedBalance = parseFloat(this.props.accountBalance) - parseFloat(newDebitAmount);
+        this.props.updateAccountBalance(updatedBalance);
 
-        this.setState((prevState) => ({
-            // Add new debit to the debits array
-            debits: [...prevState.debits, newDebit],  
-            newDebitAmount: 0,                          
-        }));
-
-        // Update the account balance by subtracting the new debit amount
-        this.props.updateAccountBalance(
-            this.props.accountBalance - parseFloat(newDebitAmount)
-        );
+        // Reset the new debit amount
+        this.setState({
+            newDebitAmount: 0,
+        });
     };
 
     render() {
         const { accountBalance } = this.props;
-        const { debits, newDebitAmount } = this.state;
+        const { newDebitAmount } = this.state;
 
         return (
             <div>
                 <h2>Debits</h2>
-
                 <div>
                     <h3>Add Debit</h3>
                     <div>

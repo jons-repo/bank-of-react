@@ -2,20 +2,9 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
 class UserProfile extends Component {
-    constructor() {
-        super();
-        this.state = {
-            accountBalance: 0,
-        };
-    }
-
-    updateAccountBalance = (newBalance) => {
-        // Update the account balance in state with the new value
-        this.setState({ accountBalance: newBalance });
-    };
-
     render() {
-        const { accountBalance } = this.state;
+        // Destructure the accountBalance prop from the component's props
+        const { accountBalance } = this.props;
 
         return (
             <div>
